@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "fastapi-example-server"
+version = "0.1.0"
+description = ""
+authors = ["Oren Cohen <oren@orencreates.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.114.2"
+uvicorn = "^0.30.6"
+pydantic-settings = "^2.5.2"
+sqlalchemy = "^2.0.34"
+asyncpg = "^0.29.0"
+greenlet = "^3.1.0"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+mypy = "^1.11.2"
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
