@@ -6,13 +6,13 @@ from app.dal.blog_db_repository import BlogDBRepository
 from app.conf import settings
 from app.handlers import blog_router, health_router
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logging.info("Starting up")
 
     blog_db_repository = BlogDBRepository()
     await blog_db_repository.create_tables()
-
 
     try:
         yield
@@ -30,7 +30,6 @@ app = FastAPI(
 
 app.include_router(health_router.health_router)
 app.include_router(blog_router.blog_router)
-
 
 
 if __name__ == "__main__":
