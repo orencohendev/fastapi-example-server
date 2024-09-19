@@ -27,7 +27,8 @@ async def create_blog(blog_post: NewBlogPostAPIModel):
 
 @blog_router.put("/{blog_id}")
 async def update_blog(blog_id: UUID, blog_post: NewBlogPostAPIModel):
-    return await BlogManager.update_post(blog_id, blog_post)
+    service_model = blog_post_api_model_to_service_model(blog_post)
+    return await BlogManager.update_post(blog_id, service_model)
 
 
 @blog_router.delete("/{blog_id}")

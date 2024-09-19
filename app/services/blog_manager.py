@@ -22,7 +22,7 @@ class BlogManager:
         return await BlogManager.blog_repository.get_all()
 
     @staticmethod
-    async def update_post(blog_id, blog):
+    async def update_post(blog_id, blog: BlogPostModel):
         return await BlogManager.blog_repository.update(blog_id, blog)
 
     @staticmethod
