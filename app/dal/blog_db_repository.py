@@ -1,5 +1,6 @@
 import datetime
 from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy import select
 
 from sqlalchemy.orm import scoped_session, sessionmaker
 from app.dal.blog_table import Blog
@@ -50,10 +51,24 @@ class BlogDBRepository:
         async with AsyncSession(self.engine) as async_session:
             return await async_session.get(Blog, blog_id)
     
-    def get_all(self):
-        return self.session.query(Blog).all()
+    async def get_all(self):
+        async with AsyncSession(self.engine) as async_session:
+            result = await async_session.execute(select(Blog))
+            return result.scalars().all()
     
-    def update(self, blog_id, blog):
-        self.session.query(Blog).filter(Blog.id == blog_id).update(blog)
-        self.session.commit()
-        return blog
+    async def update(self, blog_id, blog):
+        async with AsyncSession(self.engine) as async_session:
+            db_obj = await async_session.get(Blog, blog_id)
+            db_obj.title = blog.title
+            db_obj.content = blog.content
+            db_obj.updated_at = datetime.datetime.now()
+            await async_session.commit()
+            await async_session.refresh(db_obj)
+            return db_obj
+    
+    async def delete(self, blog_id):
+        async with AsyncSession(self.engine) as async_session:
+            blog = await async_session.get(Blog, blog_id)
+            await async_session.delete(blog)
+            await async_session.commit()
+            return blog

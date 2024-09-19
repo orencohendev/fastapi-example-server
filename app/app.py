@@ -1,4 +1,4 @@
-import asyncio
+import logging
 from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
@@ -8,7 +8,7 @@ from app.handlers import blog_router, health_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("Starting up")
+    logging.info("Starting up")
 
     blog_db_repository = BlogDBRepository()
     await blog_db_repository.create_tables()
@@ -17,7 +17,7 @@ async def lifespan(app: FastAPI):
     try:
         yield
     finally:
-        print("Shutting down")
+        logging.info("Shutting down")
 
 
 app = FastAPI(
