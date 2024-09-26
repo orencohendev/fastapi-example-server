@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 class BlogDBRepository:
     def __init__(self):
 
-        database_url = f"postgresql+asyncpg://blog:blog@localhost:5432/blog"
+        database_url = f"postgresql+asyncpg://blog:blog@postgres:5432/blog"
 
         self.engine = create_async_engine(database_url, **dict())
         self.session = scoped_session(sessionmaker(bind=self.engine))
